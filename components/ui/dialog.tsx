@@ -1,5 +1,3 @@
-Here is the full code with the modifications:
-TypeScript
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
@@ -132,4 +130,4 @@ export {
   DialogTitle,
   DialogDescription,
 }
-Let me know if you have any further questions or need more assistance!
+
