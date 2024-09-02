@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
@@ -8,43 +10,34 @@ const Dialog = DialogPrimitive.Root
 
 const DialogTrigger = DialogPrimitive.Trigger
 
-interface ClassNameProps {
-  className?: string | undefined;
-}
-
-interface CustomDialogPortalProps extends DialogPrimitive.DialogPortalProps {
-  className?: string;
-}
-
 const DialogPortal = ({
+  className,
   ...props
-}: CustomDialogPortalProps) => (
+}: {
+  className?: string
+} & DialogPrimitive.DialogPortalProps) => (
   <DialogPrimitive.Portal {...props} />
 )
 DialogPortal.displayName = DialogPrimitive.Portal.displayName
 
-interface DialogOverlayProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>, ClassNameProps {}
-
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
-  DialogOverlayProps
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
-    className={cn(
+    {...props}
+    {...{ 'data-custom-class': cn(
       "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
-    )}
-    {...props}
+    ) }}
   />
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>, ClassNameProps {}
-
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  DialogContentProps
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
@@ -130,4 +123,3 @@ export {
   DialogTitle,
   DialogDescription,
 }
-
